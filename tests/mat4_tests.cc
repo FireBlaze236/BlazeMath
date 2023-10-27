@@ -154,4 +154,39 @@ namespace MatrixTests {
 		TestMat4ValuesEq(x, e);
 	}
 
+	TEST(Mat4Tests, Mat4LookAtTest) {
+		using namespace BlazeMath;
+		Mat4 t(1.0f);
+
+		Vec3D eye(4.0f, 3.0f, -3.0f);
+		Vec3D target(0.0f, 0.0f, 0.0f);
+		Vec3D up(0.0f, 1.0f, 0.0f);
+
+		t.LookAt(eye, target, up);
+		auto x = t.GetMatPtr();
+		float e[4][4] = {
+			{-0.6, 0,  -0.8, 0.0f},
+			{-0.411,  0.85, 0.30, 0.0f},
+			{0.68,  0.51,  -0.51, -5.83f},
+			{0.0f, 0.0f, 0.0f, 1.0f}
+		};
+		TestMat4ValuesEq(x, e);
+	}
+
+	TEST(Mat4Tests, Mat4PerspectiveTest) {
+		using namespace BlazeMath;
+		Mat4 proj(1.0f);
+
+		proj.Perspective(60.0f, 16.0f / 9.0f, 0.1f, 100.0f);
+		auto x = proj.GetMatPtr();
+		float e[4][4] = {
+			{0.974, 0,  0, 0},
+			{0,  1.74, 0, 0},
+			{0,  0,  -1.0f, -0.2f},
+			{0.0f, 0.0f, -1.0, 0.0f}
+		};
+
+		TestMat4ValuesEq(x, e);
+	}
+
 }

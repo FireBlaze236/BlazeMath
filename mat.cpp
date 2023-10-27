@@ -91,6 +91,10 @@ namespace BlazeMath {
 		Vec3D right = cross(up, forward).normalized();
 		Vec3D newUp = cross(forward, right);
 
+		Mat4 trans = Mat4(1.0f);
+		trans.SetTranslation(eye * -1.0f);
+
+
 		m[0][0] = right.x;
 		m[0][1] = right.y;
 		m[0][2] = right.z;
@@ -103,11 +107,13 @@ namespace BlazeMath {
 		m[2][1] = forward.y;
 		m[2][2] = forward.z;
 
-		m[3][0] = eye.x;
-		m[3][1] = eye.y;
-		m[3][2] = eye.z;
+		m[3][0] = 0.0f;
+		m[3][1] = 0.0f;
+		m[3][2] = 0.0f;
 
 		m[3][3] = 1.0f;
+
+		*this = *this * trans;
 	}
 	void Mat4::Perspective(const float fov, const float aspect, const float near, const float far)
 	{
@@ -132,7 +138,7 @@ namespace BlazeMath {
 
 		rows[3].x = 0;
 		rows[3].y = 0;
-		rows[2].z = -1;
+		rows[3].z = -1;
 		rows[3].w = 0;
 
 		*this = Mat4(rows);
