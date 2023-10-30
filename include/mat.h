@@ -26,6 +26,10 @@ namespace BlazeMath {
 		inline const float* const GetPtr() const { return &m[0][0]; } ;
 		inline auto GetMatPtr() { return m; }
 
+		void Reset();
+		void Transpose();
+		Mat4 Transposed();
+		void SetRotationEulers(const Vec3D& euler);
 		void SetTranslation(const Vec3D& translation);
 		void SetScale(const Vec3D& scale);
 		void SetRotation(const float angleDeg, const Vec3D& axis);

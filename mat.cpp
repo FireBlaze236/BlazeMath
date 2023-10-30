@@ -37,6 +37,48 @@ namespace BlazeMath {
 		}
 
 	}
+	void Mat4::Reset()
+	{
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
+				m[i][j] = 0;
+				if (i == j) m[i][j] = 1.0f;
+			}
+		}
+	}
+	void Mat4::Transpose()
+	{
+		for (int i = 0; i < 4; i++) {
+			for (int j = i+1; j < 4; j++) {
+				std::swap(m[i][j], m[j][i]);
+			}
+		}
+	}
+	Mat4 Mat4::Transposed()
+	{
+		Mat4 ret(GetMatPtr());
+		ret.Transpose();
+		return ret;
+	}
+	void Mat4::SetRotationEulers(const Vec3D& euler)
+	{
+		float a = euler.z * PI / 180.0f;
+		float b = euler.y * PI / 180.0f;
+		float c = euler.x * PI / 180.0f;
+		using namespace std;
+		m[0][0] = cosf(b) * cosf(c);
+		m[1][0] = cosf(b) * sinf(c);
+		m[2][0] = -sinf(b);
+
+
+		m[0][1] = sinf(a)*sinf(b)*cosf(c) - cosf(a)*sinf(c);
+		m[1][1] = sinf(a)*sinf(b)*sinf(c) + cosf(a)*cosf(c);
+		m[2][1] = sinf(a) * cosf(b);
+
+		m[0][2] = cosf(a)*sinf(b)*cosf(c) + sinf(a)*sinf(c);
+		m[1][2] = cosf(a)*sinf(b)*sinf(c) - sinf(a)*cosf(c);
+		m[2][2] = cosf(a) * cosf(b);
+	}
 	void Mat4::SetTranslation(const Vec3D& translation)
 	{	
 		m[0][3] = translation.x;

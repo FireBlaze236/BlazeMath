@@ -188,5 +188,61 @@ namespace MatrixTests {
 
 		TestMat4ValuesEq(x, e);
 	}
+	TEST(Mat4Tests, Mat4ResetTest) {
+		using namespace BlazeMath;
+		Mat4 mat(5.0f);
+
+		mat.Perspective(60.0f, 16.0f / 9.0f, 0.1f, 100.0f);
+		mat.Reset();
+		auto x = mat.GetMatPtr();
+		float e[4][4] = {
+			{1.0f, 0,  0, 0},
+			{0,  1.0f, 0, 0},
+			{0,  0,  1.0f, 0},
+			{0.0f, 0.0f, 0.0, 1.0f}
+		};
+
+		TestMat4ValuesEq(x, e);
+	}
+	TEST(Mat4Tests, Mat4EulerRotationTest) {
+		using namespace BlazeMath;
+		Mat4 a(1.0f);
+		a.SetRotationEulers(Vec3D(45.0f, 32.0f, 45.0f));
+
+		auto x = a.GetMatPtr();
+		float e[4][4] = {
+			{0.599f, -0.235f,  0.764f, 0},
+			{0.599f,  0.764f, -0.235f, 0},
+			{-0.5299f,  0.599f,  0.599f, 0},
+			{0.0f, 0.0f, 0.0, 1.0f}
+		};
+
+		TestMat4ValuesEq(x, e);
+	}
+
+	TEST(Mat4Tests, Mat4TransposeTest) {
+		using namespace BlazeMath;
+		float b[4][4] = {
+			{1, 2,  3, 4},
+			{1, 2,  3, 4},
+			{1, 2,  3, 4},
+			{1, 2,  3, 4}
+		};
+
+		Mat4 a(b);
+		a.Transpose();
+
+		auto x = a.GetMatPtr();
+		float e[4][4] = {
+			{1, 1,  1, 1},
+			{2, 2,  2, 2},
+			{3, 3,  3, 3},
+			{4, 4,  4, 4}
+		};
+
+		TestMat4ValuesEq(x, e);
+
+	}
+
 
 }
